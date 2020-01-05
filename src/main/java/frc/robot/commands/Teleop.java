@@ -7,24 +7,25 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.math.MathFunctions;
 import frc.robot.subsystems.Chassis;
 
 public class Teleop extends CommandBase {
-  /**
-   * Creates a new Teleop.
-   */
   private Joystick mJoystick1;
   private Joystick mJoystick2;
   private Chassis mChassis;
+  private PowerDistributionPanel mPDP;
 
   public Teleop(Chassis chassis, Joystick j1, Joystick j2) {
     // Use addRequirements() here to declare subsystem dependencies.
     mJoystick1 = j1;
     mJoystick2 = j2;
+    mPDP = new PowerDistributionPanel(0);
     mChassis = chassis;
     addRequirements(chassis);
   }
@@ -53,6 +54,9 @@ public class Teleop extends CommandBase {
     }
 
     mChassis.tankDrive(leftPower, rightPower);
+    SmartDashboard.putNumber("PDP Votage", mPDP.getVoltage());
+    SmartDashboard.putNumber("PDP Total Current", mPDP.getTotalCurrent());
+    SmartDashboard.putNumber("PDP Temperature", mPDP.getTemperature());
   }
 
   // Called once the command ends or is interrupted.
