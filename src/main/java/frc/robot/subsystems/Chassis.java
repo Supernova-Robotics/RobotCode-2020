@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.math.MathFunctions;
 import frc.robot.Constants;
@@ -20,11 +21,17 @@ public class Chassis extends SubsystemBase {
   private Spark lbMotor;
   private Spark rbMotor;
 
+  private SpeedControllerGroup leftMotors;
+  private SpeedControllerGroup rightMotors;
+
   public Chassis() {
     lfMotor = new Spark(Constants.lfMotorAddress);
     rfMotor = new Spark(Constants.rfMotorAddress);
     lbMotor = new Spark(Constants.lbMotorAddress);
     rbMotor = new Spark(Constants.rbMotorAddress);
+
+    leftMotors = new SpeedControllerGroup(lfMotor, lbMotor);
+    rightMotors = new SpeedControllerGroup(rfMotor, rbMotor);
   }
 
   @Override
@@ -36,10 +43,8 @@ public class Chassis extends SubsystemBase {
     left = MathFunctions.clipToOne(left);
     right = MathFunctions.clipToOne(right);
     
-    lfMotor.set(left);
-    rfMotor.set(right);
-    lbMotor.set(left);
-    rbMotor.set(right);
+    leftMotors.set(left);
+    rightMotors.set(right);
   }
 
   public void povDrive(double forward, double turnRight){
