@@ -7,31 +7,29 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.math.MathFunctions;
 import frc.robot.Constants;
 
-
 public class Chassis extends SubsystemBase {
-  private Spark lfMotor;
-  private Spark rfMotor;
-  private Spark lbMotor;
-  private Spark rbMotor;
+  private VictorSPX lfMotor;
+  private VictorSPX rfMotor;
+  private VictorSPX lbMotor;
+  private VictorSPX rbMotor;
 
-  private SpeedControllerGroup leftMotors;
-  private SpeedControllerGroup rightMotors;
+  private AnalogInput ultrasonic;
 
   public Chassis() {
-    lfMotor = new Spark(Constants.lfMotorAddress);
-    rfMotor = new Spark(Constants.rfMotorAddress);
-    lbMotor = new Spark(Constants.lbMotorAddress);
-    rbMotor = new Spark(Constants.rbMotorAddress);
+    lfMotor = new VictorSPX(Constants.lfMotorAddress);
+    rfMotor = new VictorSPX(Constants.rfMotorAddress);
+    lbMotor = new VictorSPX(Constants.lbMotorAddress);
+    rbMotor = new VictorSPX(Constants.rbMotorAddress);
 
-    leftMotors = new SpeedControllerGroup(lfMotor, lbMotor);
-    rightMotors = new SpeedControllerGroup(rfMotor, rbMotor);
+    ultrasonic = new AnalogInput(Constants.frontUltrasonic);
   }
 
   @Override
@@ -39,15 +37,21 @@ public class Chassis extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void tankDrive(double left, double right){
+  public void tankDrive(double left, double right) {
     left = MathFunctions.clipToOne(left);
-    right = MathFunctions.clipToOne(right);
-    
-    leftMotors.set(left);
-    rightMotors.set(right);
+    right = -MathFunctions.clipToOne(right);
+
+    lfMotor.set(ControlMode.PercentOutput, left);
+    lbMotor.set(ControlMode.PercentOutput, left);
+    rfMotor.set(ControlMode.PercentOutput, right);
+    rbMotor.set(ControlMode.PercentOutput, right);
   }
 
-  public void povDrive(double forward, double turnRight){
+  public void povDrive(double forward, double turnRight) {
     tankDrive(forward + turnRight, forward - turnRight);
+  }
+
+  public double getFrontDistance(){
+    return ultrasonic.getVoltage() / 9.77 * 1000.0;
   }
 }

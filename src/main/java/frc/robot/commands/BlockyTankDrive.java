@@ -9,23 +9,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.math.MathFunctions;
 import frc.robot.subsystems.Chassis;
 
-public class Teleop extends CommandBase {
+public class BlockyTankDrive extends CommandBase {
   private Joystick mJoystick1;
-  private Joystick mJoystick2;
   private Chassis mChassis;
-  private PowerDistributionPanel mPDP;
 
-  public Teleop(Chassis chassis, Joystick j1, Joystick j2) {
+  private double[] thresholds = { 0, 0.1, 0.4, 0.8, 1 };
+  private double[] powers = { 0, 0.2, 0.4, 0.6, 0.6 };
+
+  public BlockyTankDrive(Chassis chassis, Joystick j1) {
     // Use addRequirements() here to declare subsystem dependencies.
     mJoystick1 = j1;
-    mJoystick2 = j2;
-    mPDP = new PowerDistributionPanel(0);
     mChassis = chassis;
     addRequirements(chassis);
   }
@@ -38,25 +36,21 @@ public class Teleop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double[] thresholds = { 0, 0.1, 0.4, 0.8, 1 };
-    double[] powers = { 0, 0.3, 0.6, 1, 1 };
-    double left = mJoystick1.getY(Hand.kLeft);
-    double right = mJoystick1.getY(Hand.kRight);
+    double left = -mJoystick1.getY(Hand.kLeft);
+    double right = -mJoystick1.getRawAxis(5);
 
     double leftPower = powers[MathFunctions.fitInterval(thresholds, Math.abs(left))];
     double rightPower = powers[MathFunctions.fitInterval(thresholds, Math.abs(right))];
 
     if (left < 0) {
-      leftPower *= -1.0;
+    leftPower *= -1.0;
     }
     if (right < 0) {
-      rightPower *= -1.0;
+    rightPower *= -1.0;
     }
-
+    SmartDashboard.putNumber("left", mJoystick1.getY(Hand.kLeft));
+    SmartDashboard.putNumber("right", mJoystick1.getY(Hand.kRight));
     mChassis.tankDrive(leftPower, rightPower);
-    SmartDashboard.putNumber("PDP Votage", mPDP.getVoltage());
-    SmartDashboard.putNumber("PDP Total Current", mPDP.getTotalCurrent());
-    SmartDashboard.putNumber("PDP Temperature", mPDP.getTemperature());
   }
 
   // Called once the command ends or is interrupted.

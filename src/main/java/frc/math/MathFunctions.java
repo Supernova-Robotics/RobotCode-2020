@@ -15,9 +15,9 @@ public class MathFunctions {
     // return the number of interval the value falls in
     for (int i = 0; i < thresholds.length; i += 1) {
       if (Math.abs(value) < thresholds[i]) {
-        return i;
+        return Math.max(0, i - 1);
       }
     }
-    return thresholds.length;
+    return thresholds.length - 1;
   }
 }

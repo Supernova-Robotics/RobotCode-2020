@@ -8,7 +8,7 @@
 package frc.robot;
 
 
-import frc.robot.commands.Teleop;
+import frc.robot.commands.BlockyTankDrive;
 import frc.robot.commands.TurnAround;
 import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,12 +24,13 @@ public class RobotContainer {
   private final Chassis m_chassis = new Chassis();
 
   private final TurnAround turnAround = new TurnAround(m_chassis);
-  private final Teleop mTeleop = new Teleop(m_chassis, joystick1, joystick2);
+  private final BlockyTankDrive mTeleop;
 
 
   public RobotContainer() {
     joystick1 = new Joystick(0);
     joystick2 = new Joystick(1);
+    mTeleop = new BlockyTankDrive(m_chassis, joystick1);
     // Configure the button bindings
     configureButtonBindings();
   }
