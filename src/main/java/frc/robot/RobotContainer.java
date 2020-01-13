@@ -8,8 +8,8 @@
 package frc.robot;
 
 
+import frc.robot.commands.AdvancedTankDrive;
 import frc.robot.commands.BlockyTankDrive;
-import frc.robot.commands.TurnAround;
 import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,19 +20,19 @@ public class RobotContainer {
   private Joystick joystick1;
   private Joystick joystick2;
 
-  private final Chassis m_chassis;
+  private final Chassis chassis;
 
-  private final TurnAround turnAround;
-  private final BlockyTankDrive mTeleop;
+  private final AdvancedTankDrive advancedTankDrive;
+  private final BlockyTankDrive blockyTankDrive;
 
 
   public RobotContainer() {
     joystick1 = new Joystick(0);
     joystick2 = new Joystick(1);
-    m_chassis = new Chassis();
+    chassis = new Chassis();
 
-    turnAround = new TurnAround(m_chassis);
-    mTeleop = new BlockyTankDrive(m_chassis, joystick1);
+    advancedTankDrive = new AdvancedTankDrive(chassis, joystick1);
+    blockyTankDrive = new BlockyTankDrive(chassis, joystick1);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -42,10 +42,10 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return turnAround;
+    return advancedTankDrive;
   }
 
   public Command getTeleopCommand(){
-    return mTeleop;
+    return blockyTankDrive;
   }
 }
