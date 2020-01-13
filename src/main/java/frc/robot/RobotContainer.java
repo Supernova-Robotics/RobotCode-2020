@@ -13,7 +13,6 @@ import frc.robot.commands.TurnAround;
 import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 public class RobotContainer {
@@ -21,22 +20,24 @@ public class RobotContainer {
   private Joystick joystick1;
   private Joystick joystick2;
 
-  private final Chassis m_chassis = new Chassis();
+  private final Chassis m_chassis;
 
-  private final TurnAround turnAround = new TurnAround(m_chassis);
+  private final TurnAround turnAround;
   private final BlockyTankDrive mTeleop;
 
 
   public RobotContainer() {
     joystick1 = new Joystick(0);
     joystick2 = new Joystick(1);
+    m_chassis = new Chassis();
+
+    turnAround = new TurnAround(m_chassis);
     mTeleop = new BlockyTankDrive(m_chassis, joystick1);
     // Configure the button bindings
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    JoystickButton x = new JoystickButton(joystick1, 0);
   }
 
   public Command getAutonomousCommand() {

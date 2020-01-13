@@ -22,4 +22,6 @@ public final class Constants {
     public static final int rbMotorAddress = 10;
 
     public static final int frontUltrasonic = 0;
+
+    public static final double tankDriveDeadZone = 0.05;
 }

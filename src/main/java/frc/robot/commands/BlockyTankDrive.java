@@ -15,16 +15,16 @@ import frc.math.MathFunctions;
 import frc.robot.subsystems.Chassis;
 
 public class BlockyTankDrive extends CommandBase {
-  private Joystick mJoystick1;
-  private Chassis mChassis;
+  private Joystick joystick1;
+  private Chassis chassis;
 
   private double[] thresholds = { 0, 0.1, 0.4, 0.8, 1 };
   private double[] powers = { 0, 0.2, 0.4, 0.6, 0.6 };
 
-  public BlockyTankDrive(Chassis chassis, Joystick j1) {
+  public BlockyTankDrive(Chassis c, Joystick j1) {
     // Use addRequirements() here to declare subsystem dependencies.
-    mJoystick1 = j1;
-    mChassis = chassis;
+    joystick1 = j1;
+    chassis = c;
     addRequirements(chassis);
   }
 
@@ -36,8 +36,8 @@ public class BlockyTankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left = -mJoystick1.getY(Hand.kLeft);
-    double right = -mJoystick1.getRawAxis(5);
+    double left = -joystick1.getY(Hand.kLeft);
+    double right = -joystick1.getRawAxis(5);
 
     double leftPower = powers[MathFunctions.fitInterval(thresholds, Math.abs(left))];
     double rightPower = powers[MathFunctions.fitInterval(thresholds, Math.abs(right))];
@@ -48,15 +48,15 @@ public class BlockyTankDrive extends CommandBase {
     if (right < 0) {
     rightPower *= -1.0;
     }
-    SmartDashboard.putNumber("left", mJoystick1.getY(Hand.kLeft));
-    SmartDashboard.putNumber("right", mJoystick1.getY(Hand.kRight));
-    mChassis.tankDrive(leftPower, rightPower);
+    SmartDashboard.putNumber("left", joystick1.getY(Hand.kLeft));
+    SmartDashboard.putNumber("right", joystick1.getY(Hand.kRight));
+    chassis.tankDrive(leftPower, rightPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    mChassis.tankDrive(0, 0);
+    chassis.tankDrive(0, 0);
   }
 
   // Returns true when the command should end.

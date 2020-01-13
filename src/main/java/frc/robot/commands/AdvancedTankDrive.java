@@ -7,49 +7,53 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Chassis;
 
-public class TurnAround extends CommandBase {
-  /**
-   * Creates a new TurnAround.
-   */
-  Chassis mChassis;
-  Timer timer;
+public class AdvancedTankDrive extends CommandBase {
+  Chassis chassis;
+  Joystick joystick;
 
-  public TurnAround(Chassis chassis) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    super();
+  public AdvancedTankDrive(Chassis c, Joystick j) {
+    chassis = c;
+    joystick = j;
     addRequirements(chassis);
-    mChassis = chassis;
-    timer = new Timer();
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mChassis.tankDrive(0, 0);
-    timer.reset();
-    timer.start();
+    chassis.tankDrive(0, 0);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mChassis.tankDrive(0.3, -0.3);
+    double left = -joystick.getY(Hand.kLeft) * 0.5;
+    double right = -joystick.getY(Hand.kRight) * 0.5;
+    double forward = (joystick.getRawAxis(0) + joystick.getRawAxis(0)) * 0.5; // get the two top trigger
+    if (Math.abs(left) < Constants.tankDriveDeadZone) {
+      left = 0;
+    }
+    if (Math.abs(right) < Constants.tankDriveDeadZone) {
+      right = 0;
+    }
+    if (Math.abs(forward) < Constants.tankDriveDeadZone) {
+      forward = 0;
+    }
+    
+    chassis.tankDrive(left + forward, right + forward);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    mChassis.tankDrive(0, 0);
-    timer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() >= 3;
+    return false;
   }
 }
