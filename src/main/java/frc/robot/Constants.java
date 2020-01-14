@@ -16,15 +16,28 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    // chassis //
     public static final int lfMotorAddress = 12;
     public static final int rfMotorAddress = 11;
     public static final int lbMotorAddress = 13;
     public static final int rbMotorAddress = 10;
 
+    public static final int frontUltrasonicPort = 0;
+
+    // intake //
     public static final int intakeMotorPort = 0;
     public static final double intakeSpeed = 0.8;
 
-    public static final int frontUltrasonic = 0;
+    // storage //
+    public static final int beltMotorPort = 1;
+    public static final double beltMotorSpeed = 0.5;
 
+    public static final int enterenceSensorPort = 1;
+    public static final int exitSensorPort = 2;
+    
+    public static final int initialCount = 3;
+    public static final boolean enableAutoMove = true;
+
+    // driver preferences //
     public static final double tankDriveDeadZone = 0.05;
 }

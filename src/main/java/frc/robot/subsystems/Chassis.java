@@ -29,7 +29,7 @@ public class Chassis extends SubsystemBase {
     lbMotor = new VictorSPX(Constants.lbMotorAddress);
     rbMotor = new VictorSPX(Constants.rbMotorAddress);
 
-    ultrasonic = new AnalogInput(Constants.frontUltrasonic);
+    ultrasonic = new AnalogInput(Constants.frontUltrasonicPort);
   }
 
   @Override
