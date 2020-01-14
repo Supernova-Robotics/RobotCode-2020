@@ -13,6 +13,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Chassis;
 
+/**
+ * tank drive, but the left and right joysticks are multiplied by 50%, and the two top triggers
+ * control going forward
+ */
+
 public class AdvancedTankDrive extends CommandBase {
     Chassis chassis;
     XboxController joystick;
@@ -32,9 +37,8 @@ public class AdvancedTankDrive extends CommandBase {
     public void execute() {
         double left = -joystick.getY(Hand.kLeft) * 0.5;
         double right = -joystick.getY(Hand.kRight) * 0.5;
-        double forward = (joystick.getTriggerAxis(Hand.kLeft) + joystick.getTriggerAxis(Hand.kRight)) * 0.5; // get the
-                                                                                                             // two top
-                                                                                                             // trigger
+        double forward = (joystick.getTriggerAxis(Hand.kLeft) + joystick.getTriggerAxis(Hand.kRight)) * 0.5;
+        
         if (Math.abs(left) < Constants.tankDriveDeadZone) {
             left = 0;
         }

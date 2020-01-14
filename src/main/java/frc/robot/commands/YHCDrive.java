@@ -12,6 +12,11 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 
+/**
+ * This is a special drive mode used by the previous driver YHC, and may be found comfortable
+ * for some people.
+ */
+
 public class YHCDrive extends CommandBase {
     Chassis chassis;
     XboxController joystick;
@@ -32,7 +37,6 @@ public class YHCDrive extends CommandBase {
         double forward = -joystick.getY(Hand.kLeft);
         double turn = joystick.getTriggerAxis(Hand.kRight) - joystick.getTriggerAxis(Hand.kLeft); // the two trigger
         chassis.povDrive(forward, turn);
-        ;
     }
 
     // Called once the command ends or is interrupted.

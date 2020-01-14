@@ -13,6 +13,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.math.MathFunctions;
 import frc.robot.subsystems.Chassis;
 
+/**
+ * An improved tank drive mode, the drive stick is "floored" to some interval
+ * so that drive stright is easier
+ */
+
 public class BlockyTankDrive extends CommandBase {
     private XboxController joystick;
     private Chassis chassis;
