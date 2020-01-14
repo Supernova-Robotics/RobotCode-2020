@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -15,9 +16,9 @@ import frc.robot.subsystems.Chassis;
 
 public class AdvancedTankDrive extends CommandBase {
   Chassis chassis;
-  Joystick joystick;
+  XboxController joystick;
 
-  public AdvancedTankDrive(Chassis c, Joystick j) {
+  public AdvancedTankDrive(Chassis c, XboxController j) {
     chassis = c;
     joystick = j;
     addRequirements(chassis);
@@ -32,7 +33,7 @@ public class AdvancedTankDrive extends CommandBase {
   public void execute() {
     double left = -joystick.getY(Hand.kLeft) * 0.5;
     double right = -joystick.getY(Hand.kRight) * 0.5;
-    double forward = (joystick.getRawAxis(0) + joystick.getRawAxis(0)) * 0.5; // get the two top trigger
+    double forward = (joystick.getTriggerAxis(Hand.kLeft) + joystick.getTriggerAxis(Hand.kRight)) * 0.5; // get the two top trigger
     if (Math.abs(left) < Constants.tankDriveDeadZone) {
       left = 0;
     }

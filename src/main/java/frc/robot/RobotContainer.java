@@ -14,13 +14,14 @@ import frc.robot.commands.AdvancedTankDrive;
 import frc.robot.commands.BlockyTankDrive;
 import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private Joystick joystick1;
-  private Joystick joystick2;
+  private XboxController joystick1;
+  private XboxController joystick2;
 
   private final Chassis chassis;
 
@@ -31,8 +32,8 @@ public class RobotContainer {
 
 
   public RobotContainer() {
-    joystick1 = new Joystick(0);
-    joystick2 = new Joystick(1);
+    joystick1 = new XboxController(0);
+    joystick2 = new XboxController(1);
     chassis = new Chassis();
 
     advancedTankDrive = new AdvancedTankDrive(chassis, joystick1);

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -15,9 +16,9 @@ import frc.robot.subsystems.Chassis;
 
 public class YHCDrive extends CommandBase {
   Chassis chassis;
-  Joystick joystick;
+  XboxController joystick;
 
-  public YHCDrive(Chassis c, Joystick j) {
+  public YHCDrive(Chassis c, XboxController j) {
     chassis = c;
     joystick = j;
     addRequirements(chassis);
@@ -31,7 +32,7 @@ public class YHCDrive extends CommandBase {
   @Override
   public void execute() {
     double forward = -joystick.getY(Hand.kLeft);
-    double turn = joystick.getRawAxis(0) - joystick.getRawAxis(1); // the two trigger
+    double turn = joystick.getTriggerAxis(Hand.kRight) - joystick.getTriggerAxis(Hand.kLeft); // the two trigger
     chassis.povDrive(forward, turn);;
   }
 

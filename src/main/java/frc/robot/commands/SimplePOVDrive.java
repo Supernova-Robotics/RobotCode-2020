@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -15,9 +16,9 @@ import frc.robot.subsystems.Chassis;
 
 public class SimplePOVDrive extends CommandBase {
   Chassis chassis;
-  Joystick joystick;
+  XboxController joystick;
 
-  public SimplePOVDrive(Chassis c, Joystick j) {
+  public SimplePOVDrive(Chassis c, XboxController j) {
     chassis = c;
     joystick = j;
     addRequirements(chassis);
@@ -32,7 +33,7 @@ public class SimplePOVDrive extends CommandBase {
   public void execute() {
     double forward = -joystick.getY(Hand.kLeft);
     double turn = joystick.getX(Hand.kRight);
-    chassis.povDrive(forward, turn);;
+    chassis.povDrive(forward, turn);
   }
 
   // Called once the command ends or is interrupted.
