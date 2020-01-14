@@ -38,6 +38,10 @@ public final class Constants {
     public static final int initialCount = 3;
     public static final boolean enableAutoMove = true;
 
+    // turret //
+    public static final int shooterMotorAddress = 14;
+    public static final double defaultShooterPower = 0.8;
+
     // driver preferences //
     public static final double tankDriveDeadZone = 0.05;
 }
