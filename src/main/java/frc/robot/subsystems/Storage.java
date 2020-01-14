@@ -15,78 +15,77 @@ import frc.math.CustomButton;
 import frc.robot.Constants;
 
 public class Storage extends SubsystemBase {
-  private Spark beltMotor;
-  private DigitalInput enterenceSensor;
-  private DigitalInput exitSensor;
+    private Spark beltMotor;
+    private DigitalInput enterenceSensor;
+    private DigitalInput exitSensor;
 
-  private boolean autoMove;
-  private int count;
+    private boolean autoMove;
+    private int count;
 
-  private CustomButton enterenceButton;
-  private CustomButton exitButton;
+    private CustomButton enterenceButton;
+    private CustomButton exitButton;
 
-  public Storage() {
-    beltMotor = new Spark(Constants.beltMotorPort);
-    enterenceSensor = new DigitalInput(Constants.enterenceSensorPort);
-    exitSensor = new DigitalInput(Constants.exitSensorPort);
+    public Storage() {
+        beltMotor = new Spark(Constants.beltMotorPort);
+        enterenceSensor = new DigitalInput(Constants.enterenceSensorPort);
+        exitSensor = new DigitalInput(Constants.exitSensorPort);
 
-    count = Constants.initialCount;
-    autoMove = Constants.enableAutoMove;
+        count = Constants.initialCount;
+        autoMove = Constants.enableAutoMove;
 
-    enterenceButton = new CustomButton();
-    exitButton = new CustomButton();
-  }
+        enterenceButton = new CustomButton();
+        exitButton = new CustomButton();
+    }
 
-  @Override
-  public void periodic() {
-    if (autoMove) {
-      enterenceButton.update(enterenceSensor.get());
-      exitButton.update(exitSensor.get());
+    @Override
+    public void periodic() {
+        if (autoMove) {
+            enterenceButton.update(enterenceSensor.get());
+            exitButton.update(exitSensor.get());
 
-      if (enterenceButton.isPressed()) {
-        count += 1;
-        beltMotor.set(Constants.beltMotorSpeed);
-      }
-      if (exitButton.isPressed()) {
-        count -= 1;
-      }
+            if (enterenceButton.isPressed()) {
+                count += 1;
+                beltMotor.set(Constants.beltMotorSpeed);
+            }
+            if (exitButton.isPressed()) {
+                count -= 1;
+            }
 
-      if (enterenceButton.isReleased()) {
-        beltMotor.set(0);
-      }
+            if (enterenceButton.isReleased()) {
+                beltMotor.set(0);
+            }
 
-      boolean succeed = SmartDashboard.putNumber("Balls in mouth", count);
-      if(!succeed){
+            boolean succeed = SmartDashboard.putNumber("Balls in mouth", count);
+            if (!succeed) {
+                SmartDashboard.delete("Balls in mouth");
+                SmartDashboard.putNumber("Balls in mouth", count);
+            }
+        } else {
+            boolean succeed = SmartDashboard.putString("Balls in mouth", "Disabled");
+            if (!succeed) {
+                SmartDashboard.delete("Balls in mouth");
+                SmartDashboard.putString("Balls in mouth", "Disabled");
+            }
+        }
+    }
+
+    public void setAutoMove(boolean status) {
+        enterenceButton.reset();
         SmartDashboard.delete("Balls in mouth");
-        SmartDashboard.putNumber("Balls in mouth", count);
-      }
+        autoMove = status;
     }
-    else{
-      boolean succeed = SmartDashboard.putString("Balls in mouth", "Disabled");
-      if(!succeed){
-        SmartDashboard.delete("Balls in mouth");
-        SmartDashboard.putString("Balls in mouth", "Disabled");
-      }
+
+    public void move(double speed) {
+        if (!autoMove) {
+            beltMotor.set(speed);
+        }
     }
-  }
 
-  public void setAutoMove(boolean status) {
-    enterenceButton.reset();
-    SmartDashboard.delete("Balls in mouth");
-    autoMove = status;
-  }
-
-  public void move(double speed) {
-    if (!autoMove) {
-      beltMotor.set(speed);
+    public int getCount() {
+        return count;
     }
-  }
 
-  public int getCount() {
-    return count;
-  }
-
-  public void setCount(int c) {
-    count = c;
-  }
+    public void setCount(int c) {
+        count = c;
+    }
 }

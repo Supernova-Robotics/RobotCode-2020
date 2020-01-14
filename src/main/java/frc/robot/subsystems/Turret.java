@@ -15,37 +15,37 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
-  private CANSparkMax shooterMotor;
-  private double shooterPower;
+    private CANSparkMax shooterMotor;
+    private double shooterPower;
 
-  public Turret() {
-    shooterMotor = new CANSparkMax(Constants.shooterMotorAddress, MotorType.kBrushless);
-    shooterPower = Constants.defaultShooterPower;
-  }
-
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber("Shooter Power", shooterPower);
-  }
-
-  public void shoot(boolean status){
-    if(status){
-      shooterMotor.set(shooterPower);
-    } else{
-      shooterMotor.set(0);
+    public Turret() {
+        shooterMotor = new CANSparkMax(Constants.shooterMotorAddress, MotorType.kBrushless);
+        shooterPower = Constants.defaultShooterPower;
     }
-  }
 
-  public double getShootPower(){
-    return shooterPower;
-  }
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Shooter Power", shooterPower);
+    }
 
-  public void setShooterPower(double power){
-    shooterPower = power;
-  }
+    public void shoot(boolean status) {
+        if (status) {
+            shooterMotor.set(shooterPower);
+        } else {
+            shooterMotor.set(0);
+        }
+    }
 
-  public void changeShooterPower(double delta){
-    shooterPower += delta;
-  }
+    public double getShootPower() {
+        return shooterPower;
+    }
+
+    public void setShooterPower(double power) {
+        shooterPower = power;
+    }
+
+    public void changeShooterPower(double delta) {
+        shooterPower += delta;
+    }
 
 }

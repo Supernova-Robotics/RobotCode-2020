@@ -13,35 +13,35 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 
 public class SimplePOVDrive extends CommandBase {
-  Chassis chassis;
-  XboxController joystick;
+    Chassis chassis;
+    XboxController joystick;
 
-  public SimplePOVDrive(Chassis c, XboxController j) {
-    chassis = c;
-    joystick = j;
-    addRequirements(chassis);
-  }
+    public SimplePOVDrive(Chassis c, XboxController j) {
+        chassis = c;
+        joystick = j;
+        addRequirements(chassis);
+    }
 
-  @Override
-  public void initialize() {
-    chassis.tankDrive(0, 0);
-  }
+    @Override
+    public void initialize() {
+        chassis.tankDrive(0, 0);
+    }
 
-  @Override
-  public void execute() {
-    double forward = -joystick.getY(Hand.kLeft);
-    double turn = joystick.getX(Hand.kRight);
-    chassis.povDrive(forward, turn);
-  }
+    @Override
+    public void execute() {
+        double forward = -joystick.getY(Hand.kLeft);
+        double turn = joystick.getX(Hand.kRight);
+        chassis.povDrive(forward, turn);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

@@ -8,7 +8,8 @@
 package frc.math;
 
 /**
- * Add your docs here.
+ * This is to make the interpretation of boolean values easier. Readings from buttons or
+ * light sensors can be used. Edges are automatically detected.
  */
 public class CustomButton{
     private boolean currentState = false;
