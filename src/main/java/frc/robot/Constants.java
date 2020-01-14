@@ -21,6 +21,9 @@ public final class Constants {
     public static final int lbMotorAddress = 13;
     public static final int rbMotorAddress = 10;
 
+    public static final int intakeMotorPort = 0;
+    public static final double intakeSpeed = 0.8;
+
     public static final int frontUltrasonic = 0;
 
     public static final double tankDriveDeadZone = 0.05;
