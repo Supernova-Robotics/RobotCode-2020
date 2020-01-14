@@ -8,9 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.math.MathFunctions;
 import frc.robot.subsystems.Chassis;
@@ -49,8 +47,6 @@ public class BlockyTankDrive extends CommandBase {
     if (right < 0) {
     rightPower *= -1.0;
     }
-    SmartDashboard.putNumber("leftPower", leftPower);
-    SmartDashboard.putNumber("rightPower", rightPower);
     chassis.tankDrive(leftPower, rightPower);
   }
 

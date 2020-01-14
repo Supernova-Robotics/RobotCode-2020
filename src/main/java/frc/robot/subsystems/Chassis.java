@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.math.MathFunctions;
 import frc.robot.Constants;
@@ -34,7 +35,8 @@ public class Chassis extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("leftPower", lfMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("rightPower", rfMotor.getMotorOutputPercent());
   }
 
   public void tankDrive(double left, double right) {

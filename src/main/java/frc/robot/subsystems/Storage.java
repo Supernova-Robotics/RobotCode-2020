@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.math.CustomButton;
 import frc.robot.Constants;
@@ -53,11 +54,25 @@ public class Storage extends SubsystemBase {
       if (enterenceButton.isReleased()) {
         beltMotor.set(0);
       }
+
+      boolean succeed = SmartDashboard.putNumber("Balls in mouth", count);
+      if(!succeed){
+        SmartDashboard.delete("Balls in mouth");
+        SmartDashboard.putNumber("Balls in mouth", count);
+      }
+    }
+    else{
+      boolean succeed = SmartDashboard.putString("Balls in mouth", "Disabled");
+      if(!succeed){
+        SmartDashboard.delete("Balls in mouth");
+        SmartDashboard.putString("Balls in mouth", "Disabled");
+      }
     }
   }
 
   public void setAutoMove(boolean status) {
     enterenceButton.reset();
+    SmartDashboard.delete("Balls in mouth");
     autoMove = status;
   }
 
