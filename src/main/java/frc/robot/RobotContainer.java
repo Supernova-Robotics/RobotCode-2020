@@ -8,6 +8,8 @@
 package frc.robot;
 
 
+import frc.robot.commands.SimplePOVDrive;
+import frc.robot.commands.YHCDrive;
 import frc.robot.commands.AdvancedTankDrive;
 import frc.robot.commands.BlockyTankDrive;
 import frc.robot.subsystems.Chassis;
@@ -24,6 +26,8 @@ public class RobotContainer {
 
   private final AdvancedTankDrive advancedTankDrive;
   private final BlockyTankDrive blockyTankDrive;
+  private final SimplePOVDrive simplePOVDrive;
+  private final YHCDrive yhcDrive;
 
 
   public RobotContainer() {
@@ -33,6 +37,8 @@ public class RobotContainer {
 
     advancedTankDrive = new AdvancedTankDrive(chassis, joystick1);
     blockyTankDrive = new BlockyTankDrive(chassis, joystick1);
+    simplePOVDrive = new SimplePOVDrive(chassis, joystick1);
+    yhcDrive = new YHCDrive(chassis, joystick1);
     // Configure the button bindings
     configureButtonBindings();
   }
