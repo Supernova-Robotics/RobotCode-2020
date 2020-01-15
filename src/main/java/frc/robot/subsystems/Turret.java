@@ -7,19 +7,21 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
-    private CANSparkMax shooterMotor;
+    private TalonSRX shooterMotor0;
+    private TalonSRX shooterMotor1;
     private double shooterPower;
 
     public Turret() {
-        shooterMotor = new CANSparkMax(Constants.shooterMotorAddress, MotorType.kBrushless);
+        shooterMotor0 = new TalonSRX(Constants.shooterMotorAddress0);
+        shooterMotor1 = new TalonSRX(Constants.shooterMotorAddress1);
         shooterPower = Constants.defaultShooterPower;
     }
 
@@ -28,11 +30,13 @@ public class Turret extends SubsystemBase {
         SmartDashboard.putNumber("Shooter Power", shooterPower);
     }
 
-    public void shoot(boolean status) {
-        if (status) {
-            shooterMotor.set(shooterPower);
+    public void set(boolean shooting) {
+        if (shooting) {
+            shooterMotor0.set(ControlMode.PercentOutput, shooterPower);
+            shooterMotor1.set(ControlMode.PercentOutput, shooterPower);
         } else {
-            shooterMotor.set(0);
+            shooterMotor0.set(ControlMode.PercentOutput, 0);
+            shooterMotor1.set(ControlMode.PercentOutput, 0);
         }
     }
 

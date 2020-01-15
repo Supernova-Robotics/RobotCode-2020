@@ -22,36 +22,36 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
+    private XboxController joystick0;
     private XboxController joystick1;
-    private XboxController joystick2;
 
     private final Chassis chassis;
-    private final ControlPanelTurner panelTurner;
+    // private final ControlPanelTurner panelTurner;
     private final Intake intake;
-    private final PowerManager powerManager;
-    private final Storage storage;
+    // private final PowerManager powerManager;
+    // private final Storage storage;
     private Turret turret;
 
-    private final AdvancedTankDrive advancedTankDrive;
-    private final BlockyTankDrive blockyTankDrive;
-    private final SimplePOVDrive simplePOVDrive;
+    // private final AdvancedTankDrive advancedTankDrive;
+    // private final BlockyTankDrive blockyTankDrive;
+    // private final SimplePOVDrive simplePOVDrive;
     private final YHCDrive yhcDrive;
 
     public RobotContainer() {
-        joystick1 = new XboxController(0);
-        joystick2 = new XboxController(1);
+        joystick0 = new XboxController(0);
+        joystick1 = new XboxController(1);
 
         chassis = new Chassis();
-        panelTurner = new ControlPanelTurner();
+        // panelTurner = new ControlPanelTurner();
         intake = new Intake();
-        powerManager = new PowerManager();
-        storage = new Storage();
+        // powerManager = new PowerManager();
+        // storage = new Storage();
         turret = new Turret();
 
-        advancedTankDrive = new AdvancedTankDrive(chassis, joystick1);
-        blockyTankDrive = new BlockyTankDrive(chassis, joystick1);
-        simplePOVDrive = new SimplePOVDrive(chassis, joystick1);
-        yhcDrive = new YHCDrive(chassis, joystick1);
+        // advancedTankDrive = new AdvancedTankDrive(chassis, joystick0);
+        // blockyTankDrive = new BlockyTankDrive(chassis, joystick0);
+        // simplePOVDrive = new SimplePOVDrive(chassis, joystick0);
+        yhcDrive = new YHCDrive(chassis, turret, intake, joystick0, joystick1);
 
         configureButtonBindings();
     }
@@ -61,10 +61,10 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return advancedTankDrive;
+        return null;
     }
 
     public Command getTeleopCommand() {
-        return blockyTankDrive;
+        return yhcDrive;
     }
 }

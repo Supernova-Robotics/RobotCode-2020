@@ -10,21 +10,33 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Intake.IntakeDirection;
 
 /**
- * This is a special drive mode used by the previous driver YHC, and may be found comfortable
- * for some people.
+ * This is a special drive mode used by the previous driver YHC, and may be
+ * found comfortable for some people.
  */
 
 public class YHCDrive extends CommandBase {
     Chassis chassis;
-    XboxController joystick;
+    Turret turret;
+    Intake intake;
+    XboxController joystick0;
+    XboxController joystick1;
 
-    public YHCDrive(Chassis c, XboxController j) {
+    public YHCDrive(Chassis c, Turret t, Intake i, XboxController j0, XboxController j1) {
         chassis = c;
-        joystick = j;
+        turret = t;
+        intake = i;
+        joystick0 = j0;
+        joystick1 = j1;
         addRequirements(chassis);
+        addRequirements(turret);
+        addRequirements(intake);
     }
 
     @Override
@@ -34,9 +46,27 @@ public class YHCDrive extends CommandBase {
 
     @Override
     public void execute() {
-        double forward = -joystick.getY(Hand.kLeft);
-        double turn = joystick.getTriggerAxis(Hand.kRight) - joystick.getTriggerAxis(Hand.kLeft); // the two trigger
+        // chassis
+        double forward = -joystick1.getY(Hand.kLeft) * Constants.kForward;
+        double turn = -(joystick1.getTriggerAxis(Hand.kLeft) - joystick1.getTriggerAxis(Hand.kRight)) * Constants.kTurn;
         chassis.povDrive(forward, turn);
+
+        // shooter
+        if (joystick0.getAButton()) {
+            turret.set(true);
+        } else {
+            turret.set(false);
+        }
+
+        // intake
+        if (joystick0.getBumper(Hand.kLeft)) {
+            intake.set(IntakeDirection.IN);
+        } else if (joystick0.getBumper(Hand.kRight)) {
+            intake.set(IntakeDirection.OUT);
+        } else {
+            intake.set(IntakeDirection.STOP);
+        }
+
     }
 
     // Called once the command ends or is interrupted.

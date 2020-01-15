@@ -17,18 +17,22 @@ package frc.robot;
  */
 public final class Constants {
     // chassis //
-    public static final int lfMotorAddress = 12;
-    public static final int rfMotorAddress = 11;
-    public static final int lbMotorAddress = 13;
-    public static final int rbMotorAddress = 10;
+    public static final int lfMotorAddress = 10;
+    public static final int rfMotorAddress = 12;
+    public static final int lbMotorAddress = -1;
+    public static final int rbMotorAddress = -1;
+    public static final boolean twoMotorChassis = true;
 
     public static final int frontUltrasonicPort = 0;
 
-    // intake //
-    public static final int intakeMotorPort = 0;
-    public static final double intakeSpeed = 0.8;
+    public static final double kForward = 0.4;
+    public static final double kTurn = 0.4;
 
-    // storage //
+    // intake //
+    public static final int intakeMotorAddress = 18;
+    public static final double intakeSpeed = 0.5;
+
+    // storage // Currently not used
     public static final int beltMotorPort = 1;
     public static final double beltMotorSpeed = 0.5;
 
@@ -39,17 +43,18 @@ public final class Constants {
     public static final boolean enableAutoMove = true;
 
     // turret //
-    public static final int shooterMotorAddress = 14;
-    public static final double defaultShooterPower = 0.8;
+    public static final int shooterMotorAddress0 = 19;
+    public static final int shooterMotorAddress1 = 20;
+    public static final double defaultShooterPower = 0.9;
 
-    // Control Panel Turner //
+    // Control Panel Turner // Currently not used
     public static final int panelTurnerPort = 2;
     public static final double panelTurnerSpeed = 0.5;
 
-    // Power manager //
+    // Power manager // Currently not used
     public static final double lowVotageLimit = 8;
     public static final double powerLimitthreshold = 10;
 
-    // driver preferences //
+    // driver preferences // Currently not used
     public static final double tankDriveDeadZone = 0.05;
 }

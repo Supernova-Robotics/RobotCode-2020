@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,10 +26,12 @@ public class Chassis extends SubsystemBase {
     public Chassis() {
         lfMotor = new VictorSPX(Constants.lfMotorAddress);
         rfMotor = new VictorSPX(Constants.rfMotorAddress);
-        lbMotor = new VictorSPX(Constants.lbMotorAddress);
-        rbMotor = new VictorSPX(Constants.rbMotorAddress);
+        if (!Constants.twoMotorChassis) {
+            lbMotor = new VictorSPX(Constants.lbMotorAddress);
+            rbMotor = new VictorSPX(Constants.rbMotorAddress);
+        }
 
-        ultrasonic = new AnalogInput(Constants.frontUltrasonicPort);
+        // ultrasonic = new AnalogInput(Constants.frontUltrasonicPort);
     }
 
     @Override
@@ -44,9 +45,11 @@ public class Chassis extends SubsystemBase {
         right = -MathFunctions.clipToOne(right);
 
         lfMotor.set(ControlMode.PercentOutput, left);
-        lbMotor.set(ControlMode.PercentOutput, left);
         rfMotor.set(ControlMode.PercentOutput, right);
-        rbMotor.set(ControlMode.PercentOutput, right);
+        if (!Constants.twoMotorChassis) {
+            lbMotor.set(ControlMode.PercentOutput, left);
+            rbMotor.set(ControlMode.PercentOutput, right);
+        }
     }
 
     public void povDrive(double forward, double turnRight) {

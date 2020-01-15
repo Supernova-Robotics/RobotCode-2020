@@ -7,35 +7,36 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-    public enum Direction {
+    public enum IntakeDirection {
         IN, OUT, STOP
     }
 
-    private Spark motor;
+    private VictorSPX motor;
 
     public Intake() {
-        motor = new Spark(Constants.intakeMotorPort);
+        motor = new VictorSPX(Constants.intakeMotorAddress);
     }
 
     @Override
     public void periodic() {
     }
 
-    public void set(Direction direction) {
+    public void set(IntakeDirection direction) {
         switch (direction) {
         case IN:
-            motor.set(Constants.intakeSpeed);
+            motor.set(ControlMode.PercentOutput, Constants.intakeSpeed);
             break;
         case OUT:
-            motor.set(-Constants.intakeSpeed);
+            motor.set(ControlMode.PercentOutput, -Constants.intakeSpeed);
             break;
         case STOP:
-            motor.set(0);
+            motor.set(ControlMode.PercentOutput, 0);
             break;
         }
 
