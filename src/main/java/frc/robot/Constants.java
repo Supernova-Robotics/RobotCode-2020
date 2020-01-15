@@ -42,6 +42,10 @@ public final class Constants {
     public static final int shooterMotorAddress = 14;
     public static final double defaultShooterPower = 0.8;
 
+    // Control Panel Turner //
+    public static final int panelTurnerPort = 2;
+    public static final double panelTurnerSpeed = 0.5;
+
     // Power manager //
     public static final double lowVotageLimit = 8;
     public static final double powerLimitthreshold = 10;
