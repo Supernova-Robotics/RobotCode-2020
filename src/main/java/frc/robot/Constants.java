@@ -42,6 +42,10 @@ public final class Constants {
     public static final int shooterMotorAddress = 14;
     public static final double defaultShooterPower = 0.8;
 
+    // Power manager //
+    public static final double lowVotageLimit = 8;
+    public static final double powerLimitthreshold = 10;
+
     // driver preferences //
     public static final double tankDriveDeadZone = 0.05;
 }
