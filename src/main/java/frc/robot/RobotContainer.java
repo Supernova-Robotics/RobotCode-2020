@@ -12,6 +12,7 @@ import frc.robot.commands.YHCDrive;
 import frc.robot.commands.AdvancedTankDrive;
 import frc.robot.commands.BlockyTankDrive;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.ControlPanelTurner;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.PowerManager;
 import frc.robot.subsystems.Storage;
@@ -25,6 +26,7 @@ public class RobotContainer {
     private XboxController joystick2;
 
     private final Chassis chassis;
+    private final ControlPanelTurner panelTurner;
     private final Intake intake;
     private final PowerManager powerManager;
     private final Storage storage;
@@ -40,6 +42,7 @@ public class RobotContainer {
         joystick2 = new XboxController(1);
 
         chassis = new Chassis();
+        panelTurner = new ControlPanelTurner();
         intake = new Intake();
         powerManager = new PowerManager();
         storage = new Storage();
