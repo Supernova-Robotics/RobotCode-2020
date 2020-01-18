@@ -50,6 +50,7 @@ public final class Constants {
     // Control Panel Turner // Currently not used
     public static final int panelTurnerPort = 2;
     public static final double panelTurnerSpeed = 0.5;
+    public static final double colorConfidenceThreshold = 0.5;
 
     // Power manager // Currently not used
     public static final double lowVotageLimit = 8;
