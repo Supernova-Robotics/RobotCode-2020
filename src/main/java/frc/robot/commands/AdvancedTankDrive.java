@@ -7,37 +7,23 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Chassis;
-
-/**
- * tank drive, but the left and right joysticks are multiplied by 50%, and the two top triggers
- * control going forward
- */
+import frc.robot.RobotContainer;
 
 public class AdvancedTankDrive extends CommandBase {
-    Chassis chassis;
-    XboxController joystick;
-
-    public AdvancedTankDrive(Chassis c, XboxController j) {
-        chassis = c;
-        joystick = j;
-        addRequirements(chassis);
-    }
 
     @Override
     public void initialize() {
-        chassis.tankDrive(0, 0);
+        RobotContainer.chassis.tankDrive(0, 0);
     }
 
     @Override
     public void execute() {
-        double left = -joystick.getY(Hand.kLeft) * 0.5;
-        double right = -joystick.getY(Hand.kRight) * 0.5;
-        double forward = (joystick.getTriggerAxis(Hand.kLeft) + joystick.getTriggerAxis(Hand.kRight)) * 0.5;
+        double left = -RobotContainer.joystick0.getY(Hand.kLeft) * 0.5;
+        double right = -RobotContainer.joystick0.getY(Hand.kRight) * 0.5;
+        double forward = (RobotContainer.joystick0.getTriggerAxis(Hand.kLeft) + RobotContainer.joystick0.getTriggerAxis(Hand.kRight)) * 0.5;
         
         if (Math.abs(left) < Constants.tankDriveDeadZone) {
             left = 0;
@@ -49,15 +35,14 @@ public class AdvancedTankDrive extends CommandBase {
             forward = 0;
         }
 
-        chassis.tankDrive(left + forward, right + forward);
+        RobotContainer.chassis.tankDrive(left + forward, right + forward);
     }
 
-    // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        RobotContainer.chassis.tankDrive(0, 0);
     }
 
-    // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         return false;

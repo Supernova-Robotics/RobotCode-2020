@@ -8,63 +8,74 @@
 package frc.robot;
 
 import frc.robot.commands.SimplePOVDrive;
+import frc.robot.commands.UpperBodyDrive;
 import frc.robot.commands.YHCDrive;
 import frc.robot.commands.AdvancedTankDrive;
 import frc.robot.commands.BlockyTankDrive;
+import frc.robot.commands.ShootBall;
+import frc.robot.subsystems.CameraStream;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ControlPanelTurner;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.PowerManager;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Turret;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
-    private XboxController joystick0;
-    private XboxController joystick1;
+    public static XboxController joystick0;
+    public static XboxController joystick1;
 
-    private final Chassis chassis;
-    // private final ControlPanelTurner panelTurner;
-    private final Intake intake;
-    // private final PowerManager powerManager;
-    // private final Storage storage;
-    private Turret turret;
+    public static CameraStream cam;
+    public static Chassis chassis;
+    public static Intake intake;
+    public static Storage storage;
+    public static Turret turret;
+    public static LimeLight limeLight;
+    
+    public static AdvancedTankDrive advancedTankDrive;
+    public static BlockyTankDrive blockyTankDrive;
+    public static SimplePOVDrive simplePOVDrive;
+    public static YHCDrive yhcDrive;
+    public static UpperBodyDrive upperBodyDrive;
+    public static ShootBall shootBall;
 
-    // private final AdvancedTankDrive advancedTankDrive;
-    // private final BlockyTankDrive blockyTankDrive;
-    // private final SimplePOVDrive simplePOVDrive;
-    private final YHCDrive yhcDrive;
+    public static SendableChooser<Command> teleopChooser;
 
     public RobotContainer() {
+        // Joysticks
         joystick0 = new XboxController(0);
         joystick1 = new XboxController(1);
 
-        chassis = new Chassis();
-        // panelTurner = new ControlPanelTurner();
+        // subsystems
+        cam = new CameraStream();
         intake = new Intake();
-        // powerManager = new PowerManager();
-        // storage = new Storage();
+        chassis = new Chassis();
+        storage = new Storage();
         turret = new Turret();
+        limeLight = new LimeLight();
 
-        // advancedTankDrive = new AdvancedTankDrive(chassis, joystick0);
-        // blockyTankDrive = new BlockyTankDrive(chassis, joystick0);
-        // simplePOVDrive = new SimplePOVDrive(chassis, joystick0);
-        yhcDrive = new YHCDrive(chassis, turret, intake, joystick0, joystick1);
+        // Commands
+        advancedTankDrive = new AdvancedTankDrive();
+        blockyTankDrive = new BlockyTankDrive();
+        simplePOVDrive = new SimplePOVDrive();
+        yhcDrive = new YHCDrive();
+        upperBodyDrive = new UpperBodyDrive();
+        shootBall = new ShootBall();
 
-        configureButtonBindings();
-    }
-
-    private void configureButtonBindings() {
-    }
-
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return null;
-    }
-
-    public Command getTeleopCommand() {
-        return yhcDrive;
+        // teleop chooser
+        teleopChooser = new SendableChooser<Command>();
+        teleopChooser.addOption("Advanced tank drive", advancedTankDrive);
+        teleopChooser.addOption("Blocky tank drive", blockyTankDrive);
+        teleopChooser.addOption("Simple POV drive", simplePOVDrive);
+        teleopChooser.addOption("YHC drive", yhcDrive);
+        teleopChooser.addOption("Upper drive", upperBodyDrive);
+        teleopChooser.setDefaultOption("YHC drive", yhcDrive);
+        SmartDashboard.putData(teleopChooser);
     }
 }

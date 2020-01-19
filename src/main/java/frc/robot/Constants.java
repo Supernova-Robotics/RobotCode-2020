@@ -29,17 +29,16 @@ public final class Constants {
     public static final double kTurn = 0.4;
 
     // intake //
-    public static final int intakeMotorAddress = 18;
+    public static final int intakeMotorPort = 1;
     public static final double intakeSpeed = 0.5;
 
-    // storage // Currently not used
-    public static final int beltMotorPort = 1;
-    public static final double beltMotorSpeed = 0.5;
+    // storage //
+    public static final int beltMotorAddress = 18;
+    public static final double beltMotorSpeed = 0.4;
 
     public static final int enterenceSensorPort = 1;
     public static final int exitSensorPort = 2;
     
-    public static final int initialCount = 3;
     public static final boolean enableAutoMove = true;
 
     // turret //

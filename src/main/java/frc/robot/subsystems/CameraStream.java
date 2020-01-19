@@ -7,38 +7,19 @@
 
 package frc.robot.subsystems;
 
-
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
-public class Intake extends SubsystemBase {
-    public enum IntakeDirection {
-        IN, OUT, STOP
-    }
+public class CameraStream extends SubsystemBase {
+    UsbCamera camera1;
 
-    private Talon motor;
-
-    public Intake() {
-        motor = new Talon(Constants.intakeMotorPort);
+    public CameraStream() {
+        camera1 = CameraServer.getInstance().startAutomaticCapture();
     }
 
     @Override
     public void periodic() {
-    }
-
-    public void set(IntakeDirection direction) {
-        switch (direction) {
-        case IN:
-            motor.set(Constants.intakeSpeed);
-            break;
-        case OUT:
-            motor.set(-Constants.intakeSpeed);
-            break;
-        case STOP:
-            motor.set(0);
-            break;
-        }
-
+        // This method will be called once per scheduler run
     }
 }

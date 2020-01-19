@@ -7,30 +7,38 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.math.CustomButton;
 import frc.robot.Constants;
 
 public class Storage extends SubsystemBase {
-    private Spark beltMotor;
+    private VictorSPX beltMotor;
     private DigitalInput enterenceSensor;
     private DigitalInput exitSensor;
+    private DoubleSolenoid keepball;
 
     private boolean autoMove;
-    private int count;
 
     private CustomButton enterenceButton;
     private CustomButton exitButton;
 
+    public enum StorageDirection {
+        UP, DOWN, STOP
+    }
+
     public Storage() {
-        beltMotor = new Spark(Constants.beltMotorPort);
+        beltMotor = new VictorSPX(Constants.beltMotorAddress);
         enterenceSensor = new DigitalInput(Constants.enterenceSensorPort);
         exitSensor = new DigitalInput(Constants.exitSensorPort);
+        keepball = new DoubleSolenoid(0, 1);
 
-        count = Constants.initialCount;
         autoMove = Constants.enableAutoMove;
 
         enterenceButton = new CustomButton();
@@ -39,33 +47,23 @@ public class Storage extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("auto move storage", autoMove);
+        SmartDashboard.putBoolean("Sensor", !enterenceSensor.get());
         if (autoMove) {
-            enterenceButton.update(enterenceSensor.get());
-            exitButton.update(exitSensor.get());
+            if (!getKeepBall()) {
+                setKeepBall(true);
+            }
+
+            enterenceButton.update(!enterenceSensor.get());
+            exitButton.update(!exitSensor.get());
 
             if (enterenceButton.isPressed()) {
-                count += 1;
-                beltMotor.set(Constants.beltMotorSpeed);
-            }
-            if (exitButton.isPressed()) {
-                count -= 1;
+                set(StorageDirection.UP);
+            } else if (enterenceButton.isReleased()) {
+                set(StorageDirection.STOP);
+
             }
 
-            if (enterenceButton.isReleased()) {
-                beltMotor.set(0);
-            }
-
-            boolean succeed = SmartDashboard.putNumber("Balls in mouth", count);
-            if (!succeed) {
-                SmartDashboard.delete("Balls in mouth");
-                SmartDashboard.putNumber("Balls in mouth", count);
-            }
-        } else {
-            boolean succeed = SmartDashboard.putString("Balls in mouth", "Disabled");
-            if (!succeed) {
-                SmartDashboard.delete("Balls in mouth");
-                SmartDashboard.putString("Balls in mouth", "Disabled");
-            }
         }
     }
 
@@ -75,17 +73,42 @@ public class Storage extends SubsystemBase {
         autoMove = status;
     }
 
-    public void move(double speed) {
+    public void setSpeed(double speed) {
         if (!autoMove) {
-            beltMotor.set(speed);
+            beltMotor.set(ControlMode.PercentOutput, -speed);
         }
     }
 
-    public int getCount() {
-        return count;
+    public void set(StorageDirection dir) {
+
+        switch (dir) {
+        case DOWN:
+            beltMotor.set(ControlMode.PercentOutput, Constants.beltMotorSpeed);
+            break;
+        case UP:
+            beltMotor.set(ControlMode.PercentOutput, -Constants.beltMotorSpeed);
+            break;
+        case STOP:
+            beltMotor.set(ControlMode.PercentOutput, 0);
+            break;
+        }
+
     }
 
-    public void setCount(int c) {
-        count = c;
+    public void setKeepBall(boolean extending) {
+        if (extending) {
+            keepball.set(Value.kForward);
+        } else {
+            keepball.set(Value.kReverse);
+        }
+    }
+
+    public boolean getKeepBall() {
+        Value v = keepball.get();
+        if (v == Value.kForward) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
