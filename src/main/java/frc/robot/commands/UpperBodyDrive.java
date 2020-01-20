@@ -8,12 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake.IntakeDirection;
 import frc.robot.subsystems.Storage.StorageDirection;
 
 public class UpperBodyDrive extends CommandBase {
+    private Command shootBall = new ShootBall();
     
     @Override
     public void initialize() {
@@ -27,12 +29,12 @@ public class UpperBodyDrive extends CommandBase {
     public void execute() {
         // shooter
         if (RobotContainer.joystick1.getAButtonPressed()) {
-            if (!RobotContainer.shootBall.isScheduled()) {
-                RobotContainer.shootBall.schedule();
+            if (!shootBall.isScheduled()) {
+                shootBall.schedule();
             }
-        } else {
-            if (RobotContainer.shootBall.isScheduled()) {
-                RobotContainer.shootBall.cancel();
+        } else if(RobotContainer.joystick1.getAButtonReleased()){
+            if (shootBall.isScheduled()) {
+                shootBall.cancel();
             }
         }
 

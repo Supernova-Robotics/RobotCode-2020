@@ -12,7 +12,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CameraStream extends SubsystemBase {
-    UsbCamera camera1;
+    private UsbCamera camera1;
 
     public CameraStream() {
         camera1 = CameraServer.getInstance().startAutomaticCapture();

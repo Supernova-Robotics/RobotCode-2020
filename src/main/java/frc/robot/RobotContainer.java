@@ -28,45 +28,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class RobotContainer {
-    public static XboxController joystick0;
-    public static XboxController joystick1;
+    // Joysticks
+    public static final XboxController joystick0 = new XboxController(0);
+    public static final XboxController joystick1 = new XboxController(1);
 
-    public static CameraStream cam;
-    public static Chassis chassis;
-    public static Intake intake;
-    public static Storage storage;
-    public static Turret turret;
-    public static LimeLight limeLight;
-    
-    public static AdvancedTankDrive advancedTankDrive;
-    public static BlockyTankDrive blockyTankDrive;
-    public static SimplePOVDrive simplePOVDrive;
-    public static YHCDrive yhcDrive;
-    public static UpperBodyDrive upperBodyDrive;
-    public static ShootBall shootBall;
+    // Subsystems
+    public static final CameraStream cam = new CameraStream();
+    public static final Chassis chassis = new Chassis();
+    public static final Intake intake = new Intake();
+    public static final Storage storage = new Storage();
+    public static final Turret turret = new Turret();
+    public static final LimeLight limeLight = new LimeLight();
 
+    // Commands
+    private Command advancedTankDrive;
+    private Command blockyTankDrive;
+    private Command simplePOVDrive;
+    private Command yhcDrive;
+
+    // Teleop and autonomous command group
     public static SendableChooser<Command> teleopChooser;
 
     public RobotContainer() {
-        // Joysticks
-        joystick0 = new XboxController(0);
-        joystick1 = new XboxController(1);
-
-        // subsystems
-        cam = new CameraStream();
-        intake = new Intake();
-        chassis = new Chassis();
-        storage = new Storage();
-        turret = new Turret();
-        limeLight = new LimeLight();
-
         // Commands
-        advancedTankDrive = new AdvancedTankDrive();
-        blockyTankDrive = new BlockyTankDrive();
-        simplePOVDrive = new SimplePOVDrive();
-        yhcDrive = new YHCDrive();
-        upperBodyDrive = new UpperBodyDrive();
-        shootBall = new ShootBall();
+        advancedTankDrive = new AdvancedTankDrive().alongWith((new UpperBodyDrive()));
+        blockyTankDrive = new BlockyTankDrive().alongWith((new UpperBodyDrive()));
+        simplePOVDrive = new SimplePOVDrive().alongWith((new UpperBodyDrive()));
+        yhcDrive = new YHCDrive().alongWith((new UpperBodyDrive()));
 
         // teleop chooser
         teleopChooser = new SendableChooser<Command>();
@@ -74,8 +62,15 @@ public class RobotContainer {
         teleopChooser.addOption("Blocky tank drive", blockyTankDrive);
         teleopChooser.addOption("Simple POV drive", simplePOVDrive);
         teleopChooser.addOption("YHC drive", yhcDrive);
-        teleopChooser.addOption("Upper drive", upperBodyDrive);
         teleopChooser.setDefaultOption("YHC drive", yhcDrive);
         SmartDashboard.putData(teleopChooser);
+    }
+
+    public static Command getTeleopCommand() {
+        return teleopChooser.getSelected();
+    }
+
+    public static Command getAutonomousCommand(){
+        return null;
     }
 }
