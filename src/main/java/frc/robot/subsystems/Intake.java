@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
+    public boolean lock = false;
+
     public enum IntakeDirection {
         IN, OUT, STOP
     }

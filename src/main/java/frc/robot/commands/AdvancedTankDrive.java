@@ -23,8 +23,9 @@ public class AdvancedTankDrive extends CommandBase {
     public void execute() {
         double left = -RobotContainer.joystick0.getY(Hand.kLeft) * 0.5;
         double right = -RobotContainer.joystick0.getY(Hand.kRight) * 0.5;
-        double forward = (RobotContainer.joystick0.getTriggerAxis(Hand.kLeft) + RobotContainer.joystick0.getTriggerAxis(Hand.kRight)) * 0.5;
-        
+        double forward = (RobotContainer.joystick0.getTriggerAxis(Hand.kLeft)
+                + RobotContainer.joystick0.getTriggerAxis(Hand.kRight)) * 0.5;
+
         if (Math.abs(left) < Constants.tankDriveDeadZone) {
             left = 0;
         }
@@ -34,8 +35,9 @@ public class AdvancedTankDrive extends CommandBase {
         if (Math.abs(forward) < Constants.tankDriveDeadZone) {
             forward = 0;
         }
-
-        RobotContainer.chassis.tankDrive(left + forward, right + forward);
+        if (RobotContainer.chassis.usingTeleop) {
+            RobotContainer.chassis.tankDrive(left + forward, right + forward);
+        }
     }
 
     @Override

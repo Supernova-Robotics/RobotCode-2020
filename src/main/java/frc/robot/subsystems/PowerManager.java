@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PowerManager extends SubsystemBase {
+
     private PowerDistributionPanel pdp;
     private final double kP;
     private double powerDecreasePercentage;

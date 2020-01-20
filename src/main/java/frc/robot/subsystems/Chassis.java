@@ -16,6 +16,8 @@ import frc.math.MathFunctions;
 import frc.robot.Constants;
 
 public class Chassis extends SubsystemBase {
+    public boolean usingTeleop = true;
+
     private VictorSPX lfMotor;
     private VictorSPX rfMotor;
     private VictorSPX lbMotor;

@@ -16,6 +16,7 @@ import frc.robot.subsystems.Storage.StorageDirection;
 
 public class UpperBodyDrive extends CommandBase {
     private Command shootBall = new ShootBall();
+    private Command autoAim = new AutoAim();
     
     @Override
     public void initialize() {
@@ -35,6 +36,17 @@ public class UpperBodyDrive extends CommandBase {
         } else if(RobotContainer.joystick1.getAButtonReleased()){
             if (shootBall.isScheduled()) {
                 shootBall.cancel();
+            }
+        }
+
+        // autoAim
+        if (RobotContainer.joystick1.getYButtonPressed()) {
+            if (!autoAim.isScheduled()) {
+                autoAim.schedule();
+            }
+        } else if(RobotContainer.joystick1.getYButtonReleased()){
+            if (autoAim.isScheduled()) {
+                autoAim.cancel();
             }
         }
 

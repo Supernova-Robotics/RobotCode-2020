@@ -19,7 +19,6 @@ public class BlockyTankDrive extends CommandBase {
     private double[] thresholds = { 0, 0.1, 0.4, 0.8, 1 };
     private double[] powers = { 0, 0.2, 0.4, 0.6, 0.6 };
 
-
     @Override
     public void initialize() {
         RobotContainer.chassis.tankDrive(0, 0);
@@ -39,7 +38,9 @@ public class BlockyTankDrive extends CommandBase {
         if (right < 0) {
             rightPower *= -1.0;
         }
-        RobotContainer.chassis.tankDrive(leftPower, rightPower);
+        if (RobotContainer.chassis.usingTeleop) {
+            RobotContainer.chassis.tankDrive(leftPower, rightPower);
+        }
     }
 
     // Called once the command ends or is interrupted.

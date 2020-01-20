@@ -19,14 +19,14 @@ public final class Constants {
     // chassis //
     public static final int lfMotorAddress = 10;
     public static final int rfMotorAddress = 12;
-    public static final int lbMotorAddress = -1;
-    public static final int rbMotorAddress = -1;
-    public static final boolean twoMotorChassis = true;
+    public static final int lbMotorAddress = 11;
+    public static final int rbMotorAddress = 13;
+    public static final boolean twoMotorChassis = false;
 
     public static final int frontUltrasonicPort = 0;
 
-    public static final double kForward = 0.4;
-    public static final double kTurn = 0.4;
+    public static final double kForward = 0.5;
+    public static final double kTurn = 0.7;
 
     // intake //
     public static final int intakeMotorPort = 1;
@@ -57,4 +57,14 @@ public final class Constants {
 
     // driver preferences // Currently not used
     public static final double tankDriveDeadZone = 0.05;
+
+    // Commands
+    // Auto aim
+    public static final double autoAimKTurn = 0.08;
+    public static final double autoAimKForward = 0.05;
+    public static final double autoAimTurnTarget = 0;
+    public static final double autoAimForwardTarget = 200;
+    public static final double autoAimForwardRange = 20;
+    public static final double autoAimTurnRange = 2;
+    public static final double autoAimStableTime = 3;
 }

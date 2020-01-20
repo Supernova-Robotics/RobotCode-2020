@@ -28,8 +28,11 @@ public class YHCDrive extends CommandBase {
     public void execute() {
         // chassis
         double forward = -RobotContainer.joystick0.getY(Hand.kLeft) * Constants.kForward;
-        double turn = -(RobotContainer.joystick0.getTriggerAxis(Hand.kLeft) - RobotContainer.joystick0.getTriggerAxis(Hand.kRight)) * Constants.kTurn;
-        RobotContainer.chassis.povDrive(forward, turn);
+        double turn = -(RobotContainer.joystick0.getTriggerAxis(Hand.kLeft)
+                - RobotContainer.joystick0.getTriggerAxis(Hand.kRight)) * Constants.kTurn;
+        if (RobotContainer.chassis.usingTeleop) {
+            RobotContainer.chassis.povDrive(forward, turn);
+        }
     }
 
     // Called once the command ends or is interrupted.

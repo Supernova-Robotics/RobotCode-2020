@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
+    public boolean lock = false;
+
     private TalonSRX shooterMotor0;
     private TalonSRX shooterMotor1;
     private double shooterPower;

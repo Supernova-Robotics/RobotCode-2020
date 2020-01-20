@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimeLight extends SubsystemBase {
+
     private NetworkTable limelightTable;
 
     private NetworkTableEntry anyValidEntry;
@@ -27,6 +28,7 @@ public class LimeLight extends SubsystemBase {
         xAngleEntry = limelightTable.getEntry("tx");
         yAngleEntry = limelightTable.getEntry("ty");
         lightEntry = limelightTable.getEntry("ledMode");
+        turnLight(false);
     }
 
     @Override

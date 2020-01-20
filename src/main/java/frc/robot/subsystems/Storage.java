@@ -19,6 +19,8 @@ import frc.math.CustomButton;
 import frc.robot.Constants;
 
 public class Storage extends SubsystemBase {
+    public boolean lock = false;
+
     private VictorSPX beltMotor;
     private DigitalInput enterenceSensor;
     private DigitalInput exitSensor;
@@ -34,6 +36,7 @@ public class Storage extends SubsystemBase {
     }
 
     public Storage() {
+
         beltMotor = new VictorSPX(Constants.beltMotorAddress);
         enterenceSensor = new DigitalInput(Constants.enterenceSensorPort);
         exitSensor = new DigitalInput(Constants.exitSensorPort);
@@ -97,9 +100,9 @@ public class Storage extends SubsystemBase {
 
     public void setKeepBall(boolean extending) {
         if (extending) {
-            keepball.set(Value.kForward);
-        } else {
             keepball.set(Value.kReverse);
+        } else {
+            keepball.set(Value.kForward);
         }
     }
 

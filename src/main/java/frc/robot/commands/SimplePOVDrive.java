@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Chassis;
 
-
 public class SimplePOVDrive extends CommandBase {
 
     @Override
@@ -25,7 +24,9 @@ public class SimplePOVDrive extends CommandBase {
     public void execute() {
         double forward = -RobotContainer.joystick0.getY(Hand.kLeft);
         double turn = RobotContainer.joystick0.getX(Hand.kRight);
-        RobotContainer.chassis.povDrive(forward, turn);
+        if (RobotContainer.chassis.usingTeleop) {
+            RobotContainer.chassis.povDrive(forward * 0.7, turn * 0.5);
+        }
     }
 
     @Override
