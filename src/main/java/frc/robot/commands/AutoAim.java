@@ -18,7 +18,7 @@ import frc.robot.RobotContainer;
 public class AutoAim extends CommandBase {
     private boolean ending = false;
     private Timer timer = new Timer();
-    private PIDController pid = new PIDController(0.02, 0.003, 0.003);
+    private PIDController pid = new PIDController(0.02, 0.002, 0.002);
     private LinearFilter inputFilter = LinearFilter.movingAverage(5);
 
     @Override
@@ -51,7 +51,7 @@ public class AutoAim extends CommandBase {
             }
             double powerTurn = -pid.calculate(ax, Constants.autoAimTurnTarget);
             // double powerForward = d * Constants.autoAimKForward;
-            RobotContainer.chassis.povDrive(0, MathFunctions.clip(powerTurn, 0.7, -0.7));
+            RobotContainer.chassis.povDrive(0, MathFunctions.clip(powerTurn, Constants.autoAimMotorLimit, -Constants.autoAimMotorLimit));
             if (timer.get() > Constants.autoAimStableTime) {
                 ending = true;
             }

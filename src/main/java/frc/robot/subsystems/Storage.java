@@ -7,11 +7,10 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,7 +20,7 @@ import frc.robot.Constants;
 public class Storage extends SubsystemBase {
     public boolean lock = false;
 
-    private VictorSPX beltMotor;
+    private Talon beltMotor;
     private DigitalInput enterenceSensor;
     private DigitalInput exitSensor;
     private DoubleSolenoid keepball;
@@ -30,6 +29,7 @@ public class Storage extends SubsystemBase {
 
     private CustomButton enterenceButton;
     private CustomButton exitButton;
+    private Timer timer;
 
     public enum StorageDirection {
         UP, DOWN, STOP
@@ -37,7 +37,7 @@ public class Storage extends SubsystemBase {
 
     public Storage() {
 
-        beltMotor = new VictorSPX(Constants.beltMotorAddress);
+        beltMotor = new Talon(Constants.beltMotorPort);
         enterenceSensor = new DigitalInput(Constants.enterenceSensorPort);
         exitSensor = new DigitalInput(Constants.exitSensorPort);
         keepball = new DoubleSolenoid(0, 1);
@@ -46,6 +46,8 @@ public class Storage extends SubsystemBase {
 
         enterenceButton = new CustomButton();
         exitButton = new CustomButton();
+        timer = new Timer();
+        timer.start();
     }
 
     @Override
@@ -62,9 +64,12 @@ public class Storage extends SubsystemBase {
 
             if (enterenceButton.isPressed()) {
                 set(StorageDirection.UP);
-            } else if (enterenceButton.isReleased()) {
+            } else if (!enterenceButton.get() && timer.get() > 0.15) {
                 set(StorageDirection.STOP);
-
+            }
+            if (enterenceButton.get()){
+                timer.reset();
+                timer.start();
             }
 
         }
@@ -78,7 +83,7 @@ public class Storage extends SubsystemBase {
 
     public void setSpeed(double speed) {
         if (!autoMove) {
-            beltMotor.set(ControlMode.PercentOutput, -speed);
+            beltMotor.set(-speed);
         }
     }
 
@@ -86,13 +91,13 @@ public class Storage extends SubsystemBase {
 
         switch (dir) {
         case DOWN:
-            beltMotor.set(ControlMode.PercentOutput, Constants.beltMotorSpeed);
+            beltMotor.set(-Constants.beltMotorSpeed);
             break;
         case UP:
-            beltMotor.set(ControlMode.PercentOutput, -Constants.beltMotorSpeed);
+            beltMotor.set(Constants.beltMotorSpeed);
             break;
         case STOP:
-            beltMotor.set(ControlMode.PercentOutput, 0);
+            beltMotor.set(0);
             break;
         }
 

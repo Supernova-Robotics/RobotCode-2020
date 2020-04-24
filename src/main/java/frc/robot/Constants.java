@@ -29,12 +29,12 @@ public final class Constants {
     public static final double kTurn = 0.7;
 
     // intake //
-    public static final int intakeMotorPort = 1;
+    public static final int intakeMotorPort = 2;
     public static final double intakeSpeed = 0.5;
 
     // storage //
-    public static final int beltMotorAddress = 18;
-    public static final double beltMotorSpeed = 0.4;
+    public static final int beltMotorPort = 1;
+    public static final double beltMotorSpeed = 0.3;
 
     public static final int enterenceSensorPort = 1;
     public static final int exitSensorPort = 2;
@@ -46,8 +46,8 @@ public final class Constants {
     public static final int shooterMotorAddress1 = 20;
     public static final double defaultShooterPower = 0.9;
 
-    // Control Panel Turner // Currently not used
-    public static final int panelTurnerPort = 2;
+    // Control Panel Turner //
+    public static final int panelTurnerPort = 0;
     public static final double panelTurnerSpeed = 0.5;
     public static final double colorConfidenceThreshold = 0.5;
 
@@ -60,11 +60,10 @@ public final class Constants {
 
     // Commands
     // Auto aim
-    public static final double autoAimKTurn = 0.08;
-    public static final double autoAimKForward = 0.05;
     public static final double autoAimTurnTarget = 0;
     public static final double autoAimForwardTarget = 200;
     public static final double autoAimForwardRange = 20;
     public static final double autoAimTurnRange = 2;
     public static final double autoAimStableTime = 3;
+    public static final double autoAimMotorLimit = 0.4;
 }

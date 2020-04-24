@@ -7,42 +7,39 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Storage.StorageDirection;
+import frc.robot.subsystems.ControlPanelTurner;
 
-public class ShootBall extends CommandBase {
-    private Timer timer = new Timer();
+public class TurnPanelToColor extends CommandBase {
+    private boolean ending;
+    private ControlPanelTurner.PanelColor targetColor;
+
+    public TurnPanelToColor(ControlPanelTurner.PanelColor color){
+        targetColor = color;
+    }
 
     @Override
     public void initialize() {
-        RobotContainer.storage.setAutoMove(false);
-        RobotContainer.storage.setKeepBall(false);
-        RobotContainer.turret.set(true);
-        timer.reset();
-        timer.start();
+        ending = false;
     }
 
     @Override
     public void execute() {
-        if (timer.get() > 1) {
-            RobotContainer.storage.set(StorageDirection.UP);
+        RobotContainer.controlPanelTurner.set(true);
+        if(RobotContainer.controlPanelTurner.getColor() == targetColor){
+            RobotContainer.controlPanelTurner.set(false);
+            ending = true;
         }
-        RobotContainer.turret.set(true);
     }
 
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.storage.set(StorageDirection.STOP);
-        RobotContainer.turret.set(false);
-        RobotContainer.storage.setKeepBall(true);
-        RobotContainer.storage.setAutoMove(true);
-        timer.stop();
+        RobotContainer.controlPanelTurner.set(false);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return ending;
     }
 }

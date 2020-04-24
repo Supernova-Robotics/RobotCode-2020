@@ -7,16 +7,20 @@
 
 package frc.robot.commands;
 
+import com.fasterxml.jackson.databind.util.RootNameLookup;
+
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ControlPanelTurner.PanelColor;
 import frc.robot.subsystems.Intake.IntakeDirection;
 import frc.robot.subsystems.Storage.StorageDirection;
 
 public class UpperBodyDrive extends CommandBase {
     private Command shootBall = new ShootBall();
     private Command autoAim = new AutoAim();
+    private Command turnPanelToColor = new TurnPanelToColor(PanelColor.RED);
     
     @Override
     public void initialize() {
@@ -57,6 +61,23 @@ public class UpperBodyDrive extends CommandBase {
             RobotContainer.intake.set(IntakeDirection.OUT);
         } else {
             RobotContainer.intake.set(IntakeDirection.STOP);
+        }
+
+        // colorTurner
+        if(RobotContainer.joystick1.getBButtonPressed()){
+            turnPanelToColor.schedule();
+        }
+        if(RobotContainer.joystick1.getBButtonReleased()){
+            turnPanelToColor.cancel();
+        }
+
+        // storage
+        if(RobotContainer.joystick1.getXButtonPressed()){
+            RobotContainer.storage.setAutoMove(false);
+            RobotContainer.storage.set(StorageDirection.DOWN);
+        } else if (RobotContainer.joystick1.getXButtonReleased()){
+            RobotContainer.storage.setAutoMove(true);
+            RobotContainer.storage.set(StorageDirection.STOP);
         }
 
     }

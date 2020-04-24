@@ -39,6 +39,7 @@ public class RobotContainer {
     public static final Storage storage = new Storage();
     public static final Turret turret = new Turret();
     public static final LimeLight limeLight = new LimeLight();
+    public static final ControlPanelTurner controlPanelTurner = new ControlPanelTurner();
 
     // Commands
     private Command advancedTankDrive;

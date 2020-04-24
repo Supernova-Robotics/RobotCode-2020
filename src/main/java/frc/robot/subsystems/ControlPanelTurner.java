@@ -13,6 +13,7 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,8 +21,7 @@ import frc.robot.Constants;
 public class ControlPanelTurner extends SubsystemBase {
     public boolean lock = false;
 
-    private boolean extending;
-    private Spark turnerMotor;
+    private Talon turnerMotor;
     private double confidenceThreshold;
 
     private ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
@@ -37,8 +37,7 @@ public class ControlPanelTurner extends SubsystemBase {
     }
 
     public ControlPanelTurner() {
-        extending = false;
-        turnerMotor = new Spark(Constants.panelTurnerPort);
+        turnerMotor = new Talon(Constants.panelTurnerPort);
         confidenceThreshold = Constants.colorConfidenceThreshold;
 
         colorMatcher.addColorMatch(kBlueTarget);
@@ -49,23 +48,14 @@ public class ControlPanelTurner extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
     }
 
-    public void turn(boolean status) {
-        if (status) {
+    public void set(boolean turning) {
+        if (turning) {
             turnerMotor.set(Constants.panelTurnerSpeed);
         } else {
             turnerMotor.set(0);
         }
-    }
-
-    public void extend(boolean extend) {
-        throw new UnsupportedOperationException("Not impliment yet");
-    }
-
-    public boolean isExtending() {
-        return extending;
     }
 
     public PanelColor getColor() {
